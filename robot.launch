@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot" default="$(optenv ROPOD_ID ropod_tue_2)"/>
+
+  <!-- start robot-specific launch file -->
+  <include file="$(find ropod_bringup)/robots/$(arg robot).launch" />
+
+</launch>

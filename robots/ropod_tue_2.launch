@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find ropod_tue_2_bringup)/launch/start.launch"/>
+</launch>

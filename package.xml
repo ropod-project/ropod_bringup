@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>ropod_bringup</name>
+  <version>0.1.0</version>
+  <description>launch files to bring up a complete robot or only specific components</description>
+
+  <maintainer email="santosh.thoduka@gmail.com">Santosh Thoduka</maintainer>
+
+  <license>GPLv3</license>
+
+  <author email="santosh.thoduka@gmail.com">Santosh Thoduka</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>hokuyo_node</run_depend>
+  <run_depend>ropod_twist_mux</run_depend>
+  <run_depend>openni2_launch</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>tf</run_depend>
+
+</package>
