@@ -6,6 +6,7 @@
 	<arg name="loadName" default="mobidik"/>
 	<arg name="LOAD_ATTACHED" default="false" />
 	<arg name="laser" default="true"/>
+	<arg name="lidar" default="true"/>
 	<arg name="laser1_name" value ="laser"/>
 	<arg name="asus_cam" default="false"/>
 	<arg name="asus_cam_name" value="asusxtion"/>
@@ -69,10 +70,15 @@
                     <arg name="robot" value="$(arg robotCommonName)"/>
                 </include>
             </group>
-		</group>
+
+       </group>
 	</group>
 
-	<!-- SIMULATION -->
+    <group if="$(arg lidar)">    
+        <include file="$(find robot_common)/launch/hardware/robosense_lidar.launch" />
+    </group>
+
+    <!-- SIMULATION -->
 	<group unless="$(arg ROBOT_REAL)">
 	        <group unless="$(arg LOAD_ATTACHED)">
                 <include file="$(find ropod_sim_model)/launch/simulator/gazebo_simulator.launch" >
