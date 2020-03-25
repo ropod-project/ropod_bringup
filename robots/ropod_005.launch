@@ -41,6 +41,8 @@
 
             <node name="ropod_low_level_control" pkg="ropod_low_level_control" type="ropod_low_level_control_ros" output="screen">
                 <param name="interfaceName"	value="eno1" />
+                <param name="smart_wheels/invertedHubWheels" value="true" /> <!-- This is for SmartWheels v6 or higher. -->
+		<param name="hasDockingMechanism" value="true" />
                 <!--rosparam param="kinematicModel/xPositionSmartWheels"> [0.21, -0.21, -0.21, 0.21] </rosparam>
                 <rosparam param="kinematicModel/yPositionSmartWheels"> [-0.21, 0.21, -0.21, 0.21] </rosparam-->
                 <rosparam param="kinematicModel/xPositionSmartWheels"> [0.21, -0.21, -0.21, 0.21] </rosparam>
