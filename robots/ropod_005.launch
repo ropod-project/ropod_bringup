@@ -43,6 +43,8 @@
                 <param name="interfaceName"	value="eno1" />
                 <param name="smart_wheels/invertedHubWheels" value="true" /> <!-- This is for SmartWheels v6 or higher. -->
 		<param name="hasDockingMechanism" value="true" />
+                <!--<param name="couplingSequence" value="$(env CATKIN_WORKSPACE)/devel/.private/ropod_low_level_control/lib/mechanism_v1_mobidik.so" />-->
+		<param name="couplingSequence" value="$(env CATKIN_WORKSPACE)/devel/.private/ropod_low_level_control/lib/mechanism_v2_generic.so" />
                 <!--rosparam param="kinematicModel/xPositionSmartWheels"> [0.21, -0.21, -0.21, 0.21] </rosparam>
                 <rosparam param="kinematicModel/yPositionSmartWheels"> [-0.21, 0.21, -0.21, 0.21] </rosparam-->
                 <rosparam param="kinematicModel/xPositionSmartWheels"> [0.21, -0.21, -0.21, 0.21] </rosparam>
