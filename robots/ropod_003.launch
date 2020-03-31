@@ -19,6 +19,10 @@
     <arg name="robotPackage" default="ropod_tue_2_bringup"/>
 	<arg name="robot_bringup_path" default="$(arg robot_path)/$(arg robotPackage)"/>
 
+    <!-- Robot description for rviz -->
+    <param name="robot_description" textfile="/home/ropod/workspace/ropod.urdf" />
+    <node pkg="robot_state_publisher" name="robot_state_publisher" type="state_publisher" />
+
 	<group ns="$(arg robotName)">
 		<!-- Start gmapping if required-->
 		<group if="$(arg gmapping)">
@@ -43,6 +47,8 @@
                 <remap from="/$(arg robotName)/ropod_low_level_control/odom" to="/$(arg robotName)/odom_incomplete"/>
                 <remap from="/ropod/cmd_vel" to="/cmd_vel"/>
             </node>
+
+            <node name="ropod_low_level_control_dyn_reconfigure" pkg="ropod_low_level_control" type="reconfigure_ctrl" output="screen" />
 
 			<!-- dynamic tf broadcaster -->
 			<group unless="$(arg LOAD_ATTACHED)">
@@ -116,6 +122,7 @@
         <include file="$(arg robot_bringup_path)/launch/tools/rviz.launch">
             <arg name="robot_bringup" value="$(arg robot_bringup_path)"/>
         </include>
+
 
 	</group>
 
