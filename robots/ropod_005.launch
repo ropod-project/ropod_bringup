@@ -12,16 +12,15 @@
 	<arg name="asus_cam_name" value="asusxtion"/>
 	<arg name="asus_cam_calibration" default="false"/>
 	<arg name="gmapping" default="false"/>
+        <arg name="sick_lms" default="true"/>
+        <arg name="realsense" default="true"/>
+        <arg name="triton" default="true"/>
     <arg name="floorplan" default="$(find ed_object_models)/models/brsu/walls/shape/map"/>
 	<arg name="ROBOT_REAL" default="$(optenv ROBOT_REAL)" />
 	<arg name="robot_path" default="$(env CATKIN_WORKSPACE)/src/platform"/>
 
     <arg name="robotPackage" default="ropod_tue_2_bringup"/>
 	<arg name="robot_bringup_path" default="$(arg robot_path)/$(arg robotPackage)"/>
-
-    <!-- Robot description for rviz -->
-    <param name="robot_description" textfile="/home/ropod/workspace/ropod.urdf" />
-    <node pkg="robot_state_publisher" name="robot_state_publisher" type="state_publisher" />
 
 	<group ns="$(arg robotName)">
 		<!-- Start gmapping if required-->
@@ -41,16 +40,20 @@
             </node>
 
             <node name="ropod_low_level_control" pkg="ropod_low_level_control" type="ropod_low_level_control_ros" output="screen">
-                <param name="interfaceName"	value="enp2s0" />
-                <param name="hasDockingMechanism" value="true" />
-                <param name="couplingSequence" value="$(env CATKIN_WORKSPACE)/devel/.private/ropod_low_level_control/lib/mechanism_v1_mobidik.so" />
+                <param name="interfaceName"	value="eno1" />
+                <param name="smart_wheels/invertedHubWheels" value="true" /> <!-- This is for SmartWheels v6 or higher. -->
+		<param name="hasDockingMechanism" value="true" />
+                <!--<param name="couplingSequence" value="$(env CATKIN_WORKSPACE)/devel/.private/ropod_low_level_control/lib/mechanism_v1_mobidik.so" />-->
+		<param name="couplingSequence" value="$(env CATKIN_WORKSPACE)/devel/.private/ropod_low_level_control/lib/mechanism_v2_generic.so" />
+                <!--rosparam param="kinematicModel/xPositionSmartWheels"> [0.21, -0.21, -0.21, 0.21] </rosparam>
+                <rosparam param="kinematicModel/yPositionSmartWheels"> [-0.21, 0.21, -0.21, 0.21] </rosparam-->
                 <rosparam param="kinematicModel/xPositionSmartWheels"> [0.21, -0.21, -0.21, 0.21] </rosparam>
-                <rosparam param="kinematicModel/yPositionSmartWheels"> [-0.21, 0.21, -0.21, 0.21] </rosparam>
+                <rosparam param="kinematicModel/yPositionSmartWheels"> [0.19, 0.19, -0.19, -0.19] </rosparam>
                 <remap from="/$(arg robotName)/ropod_low_level_control/odom" to="/$(arg robotName)/odom_incomplete"/>
                 <remap from="/ropod/cmd_vel" to="/cmd_vel"/>
+                <param name="kinematicModel/wheelRadius" value="0.0564" />
             </node>
-
-            <node name="ropod_low_level_control_dyn_reconfigure" pkg="ropod_low_level_control" type="reconfigure_ctrl" output="screen" />
+			<node name="reconfigure_ctrl" pkg="ropod_low_level_control" type="reconfigure_ctrl" output="screen"/>
 
 			<!-- dynamic tf broadcaster -->
 			<group unless="$(arg LOAD_ATTACHED)">
@@ -84,6 +87,18 @@
 
     <group if="$(arg lidar)">    
         <include file="$(find robot_common)/launch/hardware/robosense_lidar.launch" />
+    </group>
+
+    <group if="$(arg sick_lms)">
+        <include file="$(find robot_common)/launch/hardware/sick_lms.launch" />
+    </group>
+
+    <group if="$(arg realsense)">
+        <include file="$(find robot_common)/launch/hardware/realsense_3d_rgbd.launch" />
+    </group>
+
+    <group if="$(arg triton)">
+        <include file="$(find robot_common)/launch/hardware/triton.launch" />
     </group>
 
     <!-- SIMULATION -->
@@ -124,7 +139,6 @@
         <include file="$(arg robot_bringup_path)/launch/tools/rviz.launch">
             <arg name="robot_bringup" value="$(arg robot_bringup_path)"/>
         </include>
-
 
 	</group>
 
